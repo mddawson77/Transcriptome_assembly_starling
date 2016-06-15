@@ -29,7 +29,7 @@ cat MM_GB_1_128.1.cor.fq.gz,MM_GB_1_75.1.cor.fq.gz,MM_GB_1_X46.1.cor.fq.gz > com
 cat MM_GB_1_128.2.cor.fq.gz,MM_GB_1_75.2.cor.fq.gz,MM_GB_1_X46.2.cor.fq.gz > compiled.2.cor.fq
 ```
 
-### Pull out 40M Reads for BinPacker (v3) with Seqtk (v1.0-r82-dirty) 
+### Pull out 40M Reads for BinPacker (v1.0) with Seqtk (v1.0-r82-dirty) 
 ```
 seqtk sample -s1025340 /home/molly/starling/rcorrector_v1.01/compiled.1.cor.fq 40000000 > starling_compiled_40M-1.1.fq |
 seqtk sample -s1025340 /home/molly/starling/rcorrector_v1.01/compiled.2.cor.fq 40000000 > starling_compiled_40M-1.2.fq
