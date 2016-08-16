@@ -23,36 +23,8 @@ Trinity --seqType fq --max_memory 40G --trimmomatic --CPU 10 --full_cleanup --ou
 --quality_trimming_params "ILLUMINACLIP:/opt/trinityrnaseq/trinity-plugins/Trimmomatic/adapters/TruSeq3-PE-2.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
 ```
 
-### Seperately Compile Left and Right Corrected Reads
-```
-cat MM_GB_1_128.1.cor.fq.gz,MM_GB_1_75.1.cor.fq.gz,MM_GB_1_X46.1.cor.fq.gz > compiled.1.cor.fq
-cat MM_GB_1_128.2.cor.fq.gz,MM_GB_1_75.2.cor.fq.gz,MM_GB_1_X46.2.cor.fq.gz > compiled.2.cor.fq
-```
 
-### Pull out 40M Reads for BinPacker (v1.0) with Seqtk (v1.0-r82-dirty) 
-```
-seqtk sample -s1025340 /home/molly/starling/rcorrector_v1.01/compiled.1.cor.fq 40000000 > starling_compiled_40M-1.1.fq |
-seqtk sample -s1025340 /home/molly/starling/rcorrector_v1.01/compiled.2.cor.fq 40000000 > starling_compiled_40M-1.2.fq
-```
 
-### Transcriptome Assembly with BinPacker (v1.0)
-```
-BinPacker -d -q -s fq -p pair -m RF -k 25 -g 200 -o Rcorr_binpacker_starling \
--l /home/molly/starling/seqtk_v1.0-r82-dirty/starling_compiled_40M-1.1.fq \
--r /home/molly/starling/seqtk_v1.0-r82-dirty/starling_compiled_40M-1.2.fq 
-```
-
-### Merge Assemblies with TransFuse (v0.4.6)
-```
-transfuse -t 10 -i 0.98 -o transfuse_starling \
--l /home/molly/starling/rcorrector_v1.01/MM_GB_1_128.1.cor.fq.gz,/home/molly/starling/rcorrector_v1.01/MM_GB_1_75.1.cor.fq.gz,/home/molly/starling/rcorrector_v1.01/MM_GB_1_X46.1.cor.fq.gz \
--r /home/molly/starling/rcorrector_v1.01/MM_GB_1_128.2.cor.fq.gz,/home/molly/starling/rcorrector_v1.01/MM_GB_1_75.2.cor.fq.gz,/home/molly/starling/rcorrector_v1.01/MM_GB_1_X46.2.cor.fq.gz \
--a /home/molly/starling/binpacker_v1.0/Rcorr_binpacker/BinPacker.fa,/home/molly/starling/trinity_v2.2.0/Rcorr_trinity_starling.Trinity.fasta
-```
-
-### Evaluate Transfuse Assembly Completeness with BUSCO (v1.1b1)
-```
-python3 /opt/BUSCO_v1.1b1/BUSCO_v1.1b1.py -m trans --cpu 10 -l /opt/BUSCO_v1.1b1/vertebrata \
 
 ```
 
